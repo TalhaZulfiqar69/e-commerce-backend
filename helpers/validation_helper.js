@@ -65,20 +65,15 @@ let confirmPassword = check('confirmPassword')
       .withMessage((value, { req }) => {
         return 'Last name is required.';
       }),
-    check('city')
+    check('contact')
       .notEmpty()
       .withMessage((value, { req }) => {
-        return 'City is required.';
+        return 'Contact number is required.';
       }),
-    check('province')
+    check('address')
       .notEmpty()
       .withMessage((value, { req }) => {
-        return 'Province field is required.';
-      }),
-    check('userType')
-      .notEmpty()
-      .withMessage((value, { req }) => {
-        return 'User type is required.';
+        return 'Address field is required.';
       }),
   ];
 
