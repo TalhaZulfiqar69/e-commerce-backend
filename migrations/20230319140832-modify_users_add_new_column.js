@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add altering commands here.
      *
@@ -16,21 +16,19 @@ module.exports = {
         {
           type: Sequelize.BOOLEAN,
           allowNull: false,
-          defaultValue: false
-        },
+          defaultValue: false,
+        }
       ),
     ]);
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
      */
-    return Promise.all([
-      queryInterface.removeColumn('Users', 'is_verified'),
-    ]);
-  }
+    return Promise.all([queryInterface.removeColumn('Users', 'is_verified')]);
+  },
 };

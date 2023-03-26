@@ -24,6 +24,26 @@ let email = check('email')
       return true;
     });
   });
+
+let otherEmail = check('email')
+  .notEmpty()
+  .withMessage((value, { req }) => {
+    return 'Email is required.';
+  })
+  .isEmail()
+  .withMessage((value, { req }) => {
+    return 'Invalid email address.';
+  })
+  .trim()
+  .normalizeEmail()
+  .custom((value, { req }) => {
+    return models.User.findOne({ where: { email: value } }).then((user) => {
+      if (!user) {
+        throw new Error('This email is not belong to any account.');
+      }
+      return true;
+    });
+  });
 let password = check('password')
   .notEmpty()
   .withMessage((value, { req }) => {
@@ -36,6 +56,20 @@ let password = check('password')
   .matches(/\d/)
   .withMessage((value, { req }) => {
     return 'Password must contain 1 number.';
+  });
+
+let oldPassword = check('oldPassword')
+  .notEmpty()
+  .withMessage((value, { req }) => {
+    return 'Old password is required';
+  })
+  .isLength({ min: 8 })
+  .withMessage((value, { req }) => {
+    return 'Old password length must be minimum 8 characters.';
+  })
+  .matches(/\d/)
+  .withMessage((value, { req }) => {
+    return 'Old password must contain 1 number.';
   });
 let confirmPassword = check('confirmPassword')
     .notEmpty()
@@ -104,7 +138,14 @@ loginValidation = [
     }),
 ];
 
+changePasswordValidation = [password, confirmPassword, oldPassword];
+forgetPasswordValidation = [otherEmail];
+resetPasswordValidation = [password, confirmPassword];
+
 module.exports = {
   registrationValidation,
   loginValidation,
+  changePasswordValidation,
+  forgetPasswordValidation,
+  resetPasswordValidation,
 };
